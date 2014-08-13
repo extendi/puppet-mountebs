@@ -2,8 +2,8 @@ class mountebs {
 
   mount {'umount /mnt':
     name => "/mnt",
-    blockdevice => "/dev/vxdb",
-    device => "/dev/vxdb",
+    blockdevice => "/dev/xvdb",
+    device => "/dev/xvdb",
     ensure => "unmounted"
   }
 
