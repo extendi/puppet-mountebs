@@ -2,7 +2,7 @@ class mountebs {
 
   mount {'umount /mnt':
     name => "/mnt",
-    ensure => "umounted"
+    ensure => "unmounted"
   }
 
   # create if not present beanstalkd and apps
