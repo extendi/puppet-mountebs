@@ -36,6 +36,7 @@ class mountebs {
 
   exec {'format /dev/md0':
     command => 'mkfs.ext4 -j -F /dev/md0',
+    path => '/sbin',
     refreshonly => true
   }
 
