@@ -44,7 +44,7 @@ class mountebs {
   file {'set tmp mount point':
     path => '/tmp',
     ensure => directory,
-    mode => 'a=rwx,o=t',
+    mode => 'ug=rwx,o=rwxt',
   }
 
 
