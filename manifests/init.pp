@@ -35,7 +35,7 @@ class mountebs {
 
   filesystem {'/dev/md0':
     ensure => present,
-    fs_type => 'ext4',
+    fs_type => 'ext3',
   }
 
   exec {'label /tmp':
@@ -47,7 +47,6 @@ class mountebs {
     ensure => 'mounted',
     atboot => true,
     device => 'LABEL=instance_store',
-    fstype => 'ext3',
     options => 'defaults'
   }
 
