@@ -1,7 +1,8 @@
 class mountebs {
 
-  exec {'unmount instance store':
-    command => "umount /mnt"
+  mount {'umount /mnt':
+    name => "/mnt"
+    ensure => "umounted"
   }
 
   # create if not present beanstalkd and apps
@@ -13,9 +14,13 @@ class mountebs {
     ensure => "directory"
   }
 
-  mount { '/dev/xvdb':
-    ensure => absent
+  mount { '/mnt/beanstalkd':
+    ensure => mounted
   }
 
-  Exec['unmount instance store'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/dev/xvdb']
+  mount { '/mnt/apps':
+    ensure => mounted
+  }
+
+  Mount['umount /mnt'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps']
 }
