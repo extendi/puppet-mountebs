@@ -58,6 +58,7 @@ class mountebs {
     ensure => 'mounted',
     atboot => true,
     device => 'LABEL=instance_store',
+    fstype => auto
     options => 'defaults'
   }
 
