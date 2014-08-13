@@ -38,7 +38,6 @@ class mountebs {
     command => 'mkfs.ext4 -j -F /dev/md0',
     path => '/sbin',
     refreshonly => true,
-    notify => File['set tmp mount point'],
   }
 
   file {'set tmp mount point':
@@ -46,8 +45,6 @@ class mountebs {
     ensure => directory,
     mode => 'ug=rwx,o=rwxt',
   }
-
-
 
   exec {'label /tmp':
     command => "e2label /dev/md0 instance_store",
@@ -58,12 +55,12 @@ class mountebs {
     ensure => 'mounted',
     atboot => true,
     device => 'LABEL=instance_store',
-    fstype => auto
+    fstype => 'auto',
     options => 'defaults'
   }
 
 
-  Mount['umount /mnt'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Exec['label /tmp'] -> Mount['/tmp']
+  Mount['umount /mnt'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Exec['label /tmp'] -> Mount['/tmp'] -> File['set tmp mount point']
 
 
 }
