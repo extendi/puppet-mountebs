@@ -1,7 +1,7 @@
 class mountebs {
 
   mount {'umount /mnt':
-    name => "/mnt"
+    name => "/mnt",
     ensure => "umounted"
   }
 
