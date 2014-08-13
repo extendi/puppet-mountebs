@@ -52,6 +52,7 @@ class mountebs {
     command => 'mkfs.ext4 -j -F /dev/md0',
     path => '/sbin',
     refreshonly => true,
+    notify => Exec['label /tmp']
   }
 
   file {'set tmp mount point':
@@ -62,7 +63,8 @@ class mountebs {
 
   exec {'label /tmp':
     command => "e2label /dev/md0 instance_store",
-    path => "/sbin"
+    path => "/sbin",
+    refreshonly => true
   }
 
   mount {'/tmp':
@@ -74,7 +76,7 @@ class mountebs {
   }
 
 
-   Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Exec['label /tmp'] -> Mount['/tmp'] -> File['set tmp mount point']
+   Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Mount['/tmp'] -> File['set tmp mount point']
 
 
 }
