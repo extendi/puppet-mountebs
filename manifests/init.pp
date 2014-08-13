@@ -30,12 +30,13 @@ class mountebs {
     ensure    => 'created',
     devices   => ['/dev/xvdb', '/dev/xvdc'],
     level     => 0,
-    force     => true
+    force     => true,
+    notify    => Exec['format /dev/md0']
   }
 
-  filesystem {'/dev/md0':
-    ensure => present,
-    fs_type => 'ext3',
+  exec {'format /dev/md0':
+    command => 'mkfs.ext4 -j -F /dev/md0',
+    refreshonly => true
   }
 
   exec {'label /tmp':
@@ -51,7 +52,7 @@ class mountebs {
   }
 
 
-  Mount['umount /mnt'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Filesystem['/dev/md0'] -> Exec['label /tmp'] -> Mount['/tmp']
+  Mount['umount /mnt'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Exec['label /tmp'] -> Mount['/tmp']
 
 
 }
