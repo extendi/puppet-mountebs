@@ -2,7 +2,8 @@ class mountebs {
 
   exec {'umount cmd for mnt':
     path => '/bin',
-    command => 'umount -l /mnt'
+    command => 'umount -l /mnt',
+    unless => 'df -h|grep xvdb'
   }
 
   mount {'umount /mnt':
