@@ -3,7 +3,7 @@ class mountebs {
   exec {'umount cmd for mnt':
     path => '/bin',
     command => 'umount -l /mnt',
-    unless => 'df -h|grep xvdb'
+    onlyif => 'df -h|grep xvdb'
   }
 
   mount {'umount /mnt':
@@ -22,12 +22,14 @@ class mountebs {
 
   mount { '/mnt/beanstalkd':
     device => 'LABEL=beanstalkd',
-    ensure => mounted
+    ensure => mounted,
+    fstype => "ext4"
   }
 
   mount { '/mnt/apps':
     device => 'LABEL=apps',
-    ensure => mounted
+    ensure => mounted,
+    fstype => "ext4"
   }
 
   package {'mdadm':
