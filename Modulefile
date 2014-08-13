@@ -5,3 +5,5 @@ author "Matteo Alessani"
 license "Apache"
 summary "Manage mounting ebs"
 description "Manage mounting ebs"
+
+dependency "puppetlabs-lvm", "0.3.2"
