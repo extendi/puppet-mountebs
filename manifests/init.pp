@@ -31,19 +31,23 @@ class mountebs {
     devices   => ['/dev/xvdb', '/dev/xvdc'],
     level     => 0,
     force     => true,
-    notify    => [Exec['format /dev/md0'], File['set permission on /tmp']]
-  }
-
-  file {'set permission on /tmp':
-    path => '/tmp',
-    mode => 'ug=rwx,o=rwxt'
+    notify    => Exec['format /dev/md0']
   }
 
   exec {'format /dev/md0':
     command => 'mkfs.ext4 -j -F /dev/md0',
     path => '/sbin',
-    refreshonly => true
+    refreshonly => true,
+    notify => File['set tmp mount point'],
   }
+
+  file {'set tmp mount point':
+    path => '/tmp',
+    ensure => directory,
+    mode => 'a=rwx,o=t',
+  }
+
+
 
   exec {'label /tmp':
     command => "e2label /dev/md0 instance_store",
