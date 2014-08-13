@@ -17,5 +17,5 @@ class mountebs {
     ensure => absent
   }
 
-  Exec['unmount instance store'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Upstart::Job['memcached'] -> Mount['/dev/xvdb']
+  Exec['unmount instance store'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/dev/xvdb']
 }
