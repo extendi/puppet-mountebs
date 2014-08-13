@@ -31,7 +31,12 @@ class mountebs {
     devices   => ['/dev/xvdb', '/dev/xvdc'],
     level     => 0,
     force     => true,
-    notify    => Exec['format /dev/md0']
+    notify    => [Exec['format /dev/md0'], File['set permission on /tmp']]
+  }
+
+  file {'set permission on /tmp':
+    path => '/tmp',
+    mode => '1777'
   }
 
   exec {'format /dev/md0':
