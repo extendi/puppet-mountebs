@@ -20,10 +20,12 @@ class mountebs {
   }
 
   mount { '/mnt/beanstalkd':
+    device => 'LABEL=beanstalkd',
     ensure => mounted
   }
 
   mount { '/mnt/apps':
+    device => 'LABEL=apps',
     ensure => mounted
   }
 
