@@ -46,9 +46,9 @@ class mountebs {
 
   mount {'/tmp':
     ensure => 'mounted',
-    atboot => true
-    device => 'LABEL=instance_store'
-    fstype => 'ext4'
+    atboot => true,
+    device => 'LABEL=instance_store',
+    fstype => 'ext4',
     options => 'defaults'
   }
 
