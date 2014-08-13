@@ -1,5 +1,10 @@
 class mountebs {
 
+  exec {'umount cmd for mnt':
+    path => '/bin',
+    command => 'umount -l /mnt'
+  }
+
   mount {'umount /mnt':
     name => "/mnt",
     ensure => "absent"
@@ -60,7 +65,7 @@ class mountebs {
   }
 
 
-  Mount['umount /mnt'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Exec['label /tmp'] -> Mount['/tmp'] -> File['set tmp mount point']
+   Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Exec['label /tmp'] -> Mount['/tmp'] -> File['set tmp mount point']
 
 
 }
