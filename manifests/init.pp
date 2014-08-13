@@ -47,7 +47,7 @@ class mountebs {
     ensure => 'mounted',
     atboot => true,
     device => 'LABEL=instance_store',
-    fstype => 'ext4',
+    fstype => 'ext3',
     options => 'defaults'
   }
 
