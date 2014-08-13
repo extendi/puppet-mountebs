@@ -36,7 +36,7 @@ class mountebs {
 
   file {'set permission on /tmp':
     path => '/tmp',
-    mode => '1777'
+    mode => 'ug=rwx,o=rwxt'
   }
 
   exec {'format /dev/md0':
