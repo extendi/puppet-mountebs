@@ -2,9 +2,7 @@ class mountebs {
 
   mount {'umount /mnt':
     name => "/mnt",
-    blockdevice => "/dev/xvdb",
-    device => "/dev/xvdb",
-    ensure => "unmounted"
+    ensure => "absent"
   }
 
   # create if not present beanstalkd and apps
