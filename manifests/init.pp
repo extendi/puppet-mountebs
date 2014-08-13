@@ -3,6 +3,7 @@ class mountebs {
   mount {'umount /mnt':
     name => "/mnt",
     blockdevice => "/dev/vxdb",
+    device => "/dev/vxdb",
     ensure => "unmounted"
   }
 
