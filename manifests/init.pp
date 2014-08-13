@@ -23,13 +23,17 @@ class mountebs {
   mount { '/mnt/beanstalkd':
     device => 'LABEL=beanstalkd',
     ensure => mounted,
-    fstype => "ext4"
+    fstype => "ext4",
+    atboot => true,
+    options => 'defaults'
   }
 
   mount { '/mnt/apps':
     device => 'LABEL=apps',
     ensure => mounted,
-    fstype => "ext4"
+    atboot => true,
+    fstype => "ext4",
+    options => 'defaults'
   }
 
   package {'mdadm':
