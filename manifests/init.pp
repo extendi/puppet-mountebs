@@ -12,7 +12,9 @@ class mountebs {
   }
 
   file { '/mnt/apps':
-    ensure => "directory"
+    ensure => "directory",
+    owner => 'ubuntu',
+    group => 'ubuntu',
   }
 
   mount { '/mnt/apps':
