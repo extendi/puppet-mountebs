@@ -12,7 +12,8 @@ class mountebs {
   }
 
   # create if not present beanstalkd and apps
-  file { '/mnt/beanstalkd':
+  file { 'create beanstalkd directory':
+    path => "/mnt/beanstalkd",
     ensure => "directory"
   }
 
@@ -77,7 +78,7 @@ class mountebs {
   }
 
 
-   Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/beanstalkd'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Mount['/tmp'] -> File['set tmp mount point']
+   Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['create beanstalkd directory'] -> File['/mnt/apps'] -> Mount['/mnt/beanstalkd'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Mount['/tmp'] -> File['set tmp mount point']
 
 
 }
