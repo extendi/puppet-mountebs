@@ -61,6 +61,7 @@ class mountebs {
     mode => 'ug=rwx,o=rwxt',
   }
 
+  # potrebbe esserci un problema se non fa il label prima del mount. Controllare perché aggiunto il refreshonly
   exec {'label /tmp':
     command => "e2label /dev/md0 instance_store",
     path => "/sbin",
