@@ -71,7 +71,7 @@ class mountebs {
   }
 
 
-   Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/apps'] -> Mount['/mnt/apps'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Mount['/tmp'] -> File['set tmp mount point']
+   Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/apps'] -> Mount['/mnt/apps'] -> File['/home/ubuntu/current'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Mount['/tmp'] -> File['set tmp mount point']
 
 
 }
