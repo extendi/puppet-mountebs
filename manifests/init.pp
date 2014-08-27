@@ -25,6 +25,11 @@ class mountebs {
     options => 'defaults'
   }
 
+  file {'/home/ubuntu/current':
+    target => '/mnt/apps/pulsarplatform/current',
+    ensure => 'link'
+  }
+
   package {'mdadm':
     ensure => present
   }
