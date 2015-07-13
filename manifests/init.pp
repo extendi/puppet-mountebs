@@ -33,11 +33,11 @@ class mountebs (
     ensure => 'link'
   }
 
-  package {'mdadm':
-    ensure => present
-  }
-
   if ($set_tmp_dir) {
+    package {'mdadm':
+      ensure => present
+    }
+  
     mdadm { '/dev/md0' :
       ensure    => 'created',
       devices   => ['/dev/xvdb', '/dev/xvdc'],
@@ -74,10 +74,10 @@ class mountebs (
       options   => 'defaults'
     }
     
-    Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/apps'] -> Mount['/mnt/apps'] -> File['/home/ubuntu/current']
+    Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/apps'] -> Mount['/mnt/apps'] -> File['/home/ubuntu/current'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Mount['/tmp'] -> File['set tmp mount point']
     
   }else{
-    Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/apps'] -> Mount['/mnt/apps'] -> File['/home/ubuntu/current'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Mount['/tmp'] -> File['set tmp mount point']
+    Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/apps'] -> Mount['/mnt/apps'] -> File['/home/ubuntu/current']
   }
 
 }
