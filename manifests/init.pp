@@ -1,4 +1,6 @@
-class mountebs {
+class mountebs (
+  $current_app = '/mnt/apps/pulsarplatform/current'
+){
 
   exec {'umount cmd for mnt':
     path => '/bin',
@@ -26,7 +28,7 @@ class mountebs {
   }
 
   file {'/home/ubuntu/current':
-    target => '/mnt/apps/pulsarplatform/current',
+    target => $current_app,
     ensure => 'link'
   }
 
