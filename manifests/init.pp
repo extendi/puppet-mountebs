@@ -43,31 +43,27 @@ class mountebs (
       devices   => ['/dev/xvdb', '/dev/xvdc'],
       level     => 0,
       force     => true,
-      notify    => Exec['format /dev/md0'],
-      onlyif    => $set_tmp_dir
+      notify    => Exec['format /dev/md0']
     }
 
     exec {'format /dev/md0':
       command     => 'mkfs.ext4 -j -F /dev/md0',
       path        => '/sbin',
       refreshonly => true,
-      notify      => Exec['label /tmp'],
-      onlyif      => $set_tmp_dir
+      notify      => Exec['label /tmp']
     }
 
     file {'set tmp mount point':
       path     => '/tmp',
       ensure   => directory,
-      mode     => 'ug=rwx,o=rwxt',
-      onlyif   => $set_tmp_dir
+      mode     => 'ug=rwx,o=rwxt'
     }
 
     # potrebbe esserci un problema se non fa il label prima del mount. Controllare perché aggiunto il refreshonly
     exec {'label /tmp':
       command     => "e2label /dev/md0 instance_store",
       path        => "/sbin",
-      refreshonly => true,
-      onlyif      => $set_tmp_dir
+      refreshonly => true
     }
 
     mount {'/tmp':
@@ -75,8 +71,7 @@ class mountebs (
       atboot    => true,
       device    => 'LABEL=instance_store',
       fstype    => 'auto',
-      options   => 'defaults',
-      onlyif    => $set_tmp_dir
+      options   => 'defaults'
     }
     
     Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/apps'] -> Mount['/mnt/apps'] -> File['/home/ubuntu/current']
