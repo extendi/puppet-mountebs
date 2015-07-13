@@ -1,5 +1,6 @@
 class mountebs (
-  $current_app = '/mnt/apps/pulsarplatform/current'
+  $current_app = '/mnt/apps/pulsarplatform/current',
+  $set_tmp_dir = true
 ){
 
   exec {'umount cmd for mnt':
@@ -41,35 +42,40 @@ class mountebs (
     devices   => ['/dev/xvdb', '/dev/xvdc'],
     level     => 0,
     force     => true,
-    notify    => Exec['format /dev/md0']
+    notify    => Exec['format /dev/md0'],
+    onlyif    => $set_tmp_dir
   }
 
   exec {'format /dev/md0':
-    command => 'mkfs.ext4 -j -F /dev/md0',
-    path => '/sbin',
+    command     => 'mkfs.ext4 -j -F /dev/md0',
+    path        => '/sbin',
     refreshonly => true,
-    notify => Exec['label /tmp']
+    notify      => Exec['label /tmp'],
+    onlyif      => $set_tmp_dir
   }
 
   file {'set tmp mount point':
-    path => '/tmp',
-    ensure => directory,
-    mode => 'ug=rwx,o=rwxt',
+    path     => '/tmp',
+    ensure   => directory,
+    mode     => 'ug=rwx,o=rwxt',
+    onlyif   => $set_tmp_dir
   }
 
   # potrebbe esserci un problema se non fa il label prima del mount. Controllare perché aggiunto il refreshonly
   exec {'label /tmp':
-    command => "e2label /dev/md0 instance_store",
-    path => "/sbin",
-    refreshonly => true
+    command     => "e2label /dev/md0 instance_store",
+    path        => "/sbin",
+    refreshonly => true,
+    onlyif      => $set_tmp_dir
   }
 
   mount {'/tmp':
-    ensure => 'mounted',
-    atboot => true,
-    device => 'LABEL=instance_store',
-    fstype => 'auto',
-    options => 'defaults'
+    ensure    => 'mounted',
+    atboot    => true,
+    device    => 'LABEL=instance_store',
+    fstype    => 'auto',
+    options   => 'defaults',
+    onlyif    => $set_tmp_dir
   }
 
 
