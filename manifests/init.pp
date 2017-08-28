@@ -71,7 +71,7 @@ class mountebs (
       atboot    => true,
       device    => 'LABEL=instance_store',
       fstype    => 'auto',
-      options   => 'defaults'
+      options   => 'noatime,nobootwait'
     }
     
     Exec['umount cmd for mnt'] -> Mount['umount /mnt'] -> File['/mnt/apps'] -> Mount['/mnt/apps'] -> File['/home/ubuntu/current'] -> Package['mdadm'] -> Mdadm['/dev/md0'] -> Mount['/tmp'] -> File['set tmp mount point']
